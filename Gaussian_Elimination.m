@@ -28,6 +28,9 @@ for i = 1:(n-1)
     for p = i:n
         if A(p,i) ~= 0
             break
+        elseif p == n
+            disp("no unique solution exists")
+            return
         end % end if
     end % end for
     
@@ -49,20 +52,17 @@ for k = 1:max_k
     y = zeros(n,1);
     
     if A(n,n) == 0
-        error("No unique solution exists")
+        disp("No unique solution exists")
+        return
     end
     
     xn = A(n, n+k) / A(n,n);
     y(n) = xn;
     
     for i = (n-1):-1:1
-        sum = 0;
-
-        for j = (i+1):n
-            sum = sum + A(i,j)*y(j);
-        end
+        ax = A(i,(i+1):n)*y((i+1):n);
         
-        xi = (A(i,n+k) - sum)/A(i,i);
+        xi = (A(i,n+k) - ax)/A(i,i);
         y(i) = xi;
     end
     x_val(:,k) = y; 
